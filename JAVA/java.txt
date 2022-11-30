@@ -1,0 +1,1 @@
+ This code contains all the java codes of daily programs
