@@ -1,4 +1,4 @@
-*On Mars, there are n energy outposts resting around the planet, each energy outpost 
+/*On Mars, there are n energy outposts resting around the planet, each energy outpost 
 supplies energy, and energy at the ith outpost is energy[i]. We have a robotic dog 
 that runs on an energy cell, it costs charge[i] of energy for the dog to run from 
 the ith outpost to the next i+1th outpost. The dog begins the journey with an 
