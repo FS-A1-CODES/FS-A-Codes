@@ -46,7 +46,7 @@ Sample Output-3:
 aaabaab
 
 */
-
+//not effecient, can use StringBuilder or StringBuffer
 import java.util.*;
 class Test{
   public static void main(){
