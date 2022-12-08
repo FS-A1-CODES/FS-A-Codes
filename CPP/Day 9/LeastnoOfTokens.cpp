@@ -41,4 +41,48 @@ Sample Output-2:
 -1
 
 */
+//failing 8th test case due to long int input
+#include <bits/stdc++.h>
+using namespace std;
 
+int minTokens(int i,int target,vector<int>& arr,vector<vector<int>>& dp){
+    if(i==0){
+        if(target%arr[0]==0){
+            return target/arr[0];
+        }
+        else{
+            return 1e9+7;
+        }
+    }
+    if(dp[i][target]!=-1){
+        return dp[i][target];
+    }
+    int pick = 1e9+7;
+    int not_pick = 0+minTokens(i-1,target,arr,dp);
+    if(arr[i]<=target){//condition to pick the element as token
+    //pick the element and stay there
+        pick = 1+minTokens(i,target-arr[i],arr,dp);//reduce the target value;
+    }
+    
+    return dp[i][target] = min(pick,not_pick);
+}
+int main(){
+    vector<int> arr;
+    int tar;
+    string s,t;
+    getline(cin,s);
+    cin>>tar;
+    stringstream ss(s);
+    while(getline(ss,t,' ')){
+        arr.emplace_back(stoi(t));
+    }
+    int n = arr.size();
+    vector<vector<int>> dp(n,vector<int>(tar+1,-1));
+    int ans = minTokens(n-1,tar,arr,dp);
+    if(ans>=1e9+7){
+        cout<<-1;
+    }
+    else{
+        cout<<(int)ans;
+    }
+}
