@@ -78,47 +78,44 @@ power[3] and power[4] are greater than upper so 2 points are gained.
 
 */
 
-class Test{
-    int compare(int sum,int low,int up){
-        int res=0;
-        if(sum<low){
-            res--;
-        }
-        else if(sum>up){
-            res++;
-        }
-        else{
-            return res;
-        }
-    }
-    int Fighter_power(int[] arr,int n,int k,int low,int up){
-        int res=0;
-        int sum=0;
-        int i=0,j=0;
-        while(j<n){
-            sum+=arr[i];
-            if(j-i+1 < k){
-                j++;
-            }
-            else if(j-i+1 == k){
-                res += compare(sum,low,up);
-                sum-=arr[i];
-                i++;
-                j++;
-            }
-        }
-        return res;
-    }
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
+
+      
+ 
+ import java.util.*;
+public class p1{
+    public static void main (String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int arr[]=new int[n];
+        int m[]=new int[3];
         for(int i=0;i<n;i++){
-            arr[i] = sc.nextInt();
+            arr[i]=sc.nextInt();
         }
-        int k = sc.nextInt();
-        int low = sc.nextInt();
-        int up = sc.nextInt();
-        System.out.println(Fighter_power(arr,n,k,low,up));
+        for(int i=0;i<3;i++){
+            m[i]=sc.nextInt();
+        }
+        int k=m[0];
+        int l=m[1];
+        int u=m[2];
+        int r=0;
+        for(int i=0;i<=n-k;i++){
+            int s=0;
+            for(int j=i;j<i+k;j++){
+                s=s+arr[j];
+            }
+            if(s<l){
+                r=r-1;
+            }
+            else if(s>u){
+                r=r+1;
+            }
+            else{
+                r=r+0;
+            }
+        }
+        System.out.println(r);
     }
 }
+      
+
+        
