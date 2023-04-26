@@ -48,3 +48,55 @@ Sample Output-2:
 1
 
 */
+import java.util.*;
+class DSU {
+    int[] parent;
+    int[] rank;
+    int components=0;
+    public DSU(int n) {
+        components=n;
+        parent = new int[n];
+        rank = new int[n];
+        for(int i=0;i<n;i++) {
+            parent[i] = i;
+            rank[i]=1;
+        }
+    }
+
+    public int find(int x) {
+        if(parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    public void union(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+        if(px != py) {
+            if (rank[px] < rank[py]) {
+                parent[px] = py;
+        
+            } else if (rank[px] > rank[py]) {
+                parent[py] = px;
+                
+            } else {
+                parent[py] = px;
+                rank[px]++;
+            }
+            components--;
+        }
+    }
+}
+class Different{
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int sides = sc.nextInt();
+        DSU dsu = new DSU(n);
+        for(int i=0;i<sides;i++) {
+            dsu.union(sc.nextInt(),sc.nextInt());
+        }
+        System.out.println(dsu.components);
+    }
+}
