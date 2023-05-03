@@ -1,8 +1,12 @@
-/*There is a group of n people labeled from 0 to n - 1 where each person has a different amount of money and a different level of quietness.
+/*There is a group of n people labeled from 0 to n - 1 where each person has a different amount of money and
+a different level of quietness.
 
-You are given an array richer where richer[i] = [ai, bi] indicates that ai has more money than bi and an integer array quiet where quiet[i] is the quietness of the ith person. All the given data in richer are logically correct (i.e., the data will not lead you to a situation where x is richer than y and y is richer than x at the same time).
+You are given an array richer where richer[i] = [ai, bi] indicates that ai has more money than bi and an integer array
+quiet where quiet[i] is the quietness of the ith person. All the given data in richer are logically correct 
+(i.e., the data will not lead you to a situation where x is richer than y and y is richer than x at the same time).
 
-Return an integer array answer where answer[x] = y if y is the least quiet person (that is, the person y with the smallest value of quiet[y]) among all people who definitely have equal to or more money than the person x.
+Return an integer array answer where answer[x] = y if y is the least quiet person (that is, the person y with the 
+ smallest value of quiet[y]) among all people who definitely have equal to or more money than the person x.
 
 7
 1 0
@@ -24,9 +28,11 @@ Output: [5,5,2,5,4,5,6,7]
 Explanation: 
 answer[0] = 5.
 Person 5 has more money than 3, which has more money than 1, which has more money than 0.
-The only person who is quieter (has lower quiet[x]) is person 7, but it is not clear if they have more money than person 0.
+The only person who is quieter (has lower quiet[x]) is person 7, but it is not clear if they
+have more money than person 0.
 answer[7] = 7.
-Among all people that definitely have equal to or more money than person 7 (which could be persons 3, 4, 5, 6, or 7), the person who is the quietest (has lower quiet[x]) is person 7.
+Among all people that definitely have equal to or more money than person 7 
+(which could be persons 3, 4, 5, 6, or 7), the person who is the quietest (has lower quiet[x]) is person 7.
 The other answers can be filled out with similar reasoning.
 Example 2:
 
@@ -64,38 +70,34 @@ class LoudAndRich {
         System.out.println(Arrays.toString(check(r,q)));
     }
     public static int[] check(int richer[][],int quiet[]){
-         List<List<Integer>> adj = new ArrayList<>();
-         int n = quiet.length;
-         for(int i=0;i<n;i++){
-             adj.add(new ArrayList<Integer>());
-         }
-         for(int[] edge:richer){
-             int u = edge[1];
-             int v = edge[0];
-             adj.get(u).add(v);
-         }
-         //to store ans for each person
-         int[] answer = new int[n];
-         Arrays.fill(answer,-1);
-         for(int i=0;i<n;i++){
-             if(answer[i]==-1){
-                 dfs(i,adj,quiet,answer);
-             }
-         }
-         return answer;
-    }
-    private static int dfs(int u,List<List<Integer>> adj,int[] quiet,int[] answer){
-        //setting ans to themselves
-        answer[u] = u;
-        for(int v:adj.get(u)){
-            //choose candidate with least quietness
-            int candidate = answer[u]>answer[v]?answer[v]:answer[u];
-            if(answer[v]==-1){
-                candidate = dfs(v,adj,quiet,answer);
-            }
-            //now again choose candidate with least quietness
-            answer[u] = quiet[answer[u]]<quiet[candidate] ? answer[u]:candidate;
+        int n = quiet.length;
+        int res[] = new int[n];
+        List<Integer> graph[] = new ArrayList[n];
+        for(int i=0;i<n;i++){
+            graph[i] = new ArrayList<>();
         }
-        return answer[u];
+        Arrays.fill(res,-1);
+        int[]indegree = new int[n];
+        for(int[]edge : richer){
+            graph[edge[0]].add(edge[1]);
+            indegree[edge[1]]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<n;i++){
+            if(indegree[i]==0) q.add(i);
+            res[i] = i;
+        }
+        while(!q.isEmpty()){
+            int u = q.poll();
+            for(int v : graph[u]){
+                if(quiet[v]>quiet[u]){
+                    quiet[v] = quiet[u];
+                    res[v]=res[u];
+                }
+                indegree[v]--;
+                if(indegree[v]==0) q.offer(v);
+            }
+        }
+        return res;
     }
 }
